@@ -122,4 +122,8 @@ if IF_USE_PROXY:
 
         # 设置自定义捕获异常中间层
         'proxyPool.scrapy.middlewares.CatchExceptionMiddleware': 105,
+
+        # 设置自定义重连中间件
+        'scrapy.contrib.downloadermiddleware.retry.RetryMiddleware': None,
+        'proxyPool.scrapy.middlewares.RetryMiddleware': 95,
     }

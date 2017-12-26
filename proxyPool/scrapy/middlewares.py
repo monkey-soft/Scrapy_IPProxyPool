@@ -48,3 +48,32 @@ class CatchExceptionMiddleware(object):
             except KeyError:
                 logging.debug("===  无法正常访问到的页面: " + response.url + " ===")
         return response
+
+'''捕获重连中间层'''
+class RetryMiddleware(object):
+    def process_exception(self, request, exception, spider):
+        try:
+            proxy = request.meta['proxy']
+            if 'http://' in proxy:
+                proxy = proxy.replace('http://', '')
+            else:
+                proxy = proxy.replace('https://', '')
+
+            getProxyPoolWorker().plus_proxy_faild_time(proxy.split(':')[0])
+            print('ip  proxy  ===  ', proxy.split(':')[0])
+        except Exception as e:
+            logging.debug("===  访问页面: " + request.url + " 出现异常。\n %s", e)
+
+    def process_responce(self, request, response, spider):
+        if response.staus < 200 or response.staus >= 400:
+            try:
+                proxy = request.meta['proxy']
+                if 'http://' in proxy:
+                    proxy = proxy.replace('http://', '')
+                else:
+                    proxy = proxy.replace('https://', '')
+
+                getProxyPoolWorker().plus_proxy_faild_time(proxy.split(':')[0])
+            except KeyError:
+                logging.debug("===  无法正常访问到的页面: " + response.url + " ===")
+        return response

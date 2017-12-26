@@ -51,7 +51,7 @@ class proxyDBManager(object):
           CREATE TABLE {} (
               id INT(9) NOT NULL AUTO_INCREMENT PRIMARY KEY,
               ip VARCHAR(25) NOT NULL,
-              port INT(4) NOT NULL,
+              port INT(5) NOT NULL,
               type VARCHAR(6) NOT NULL,
               area VARCHAR(200),
               anonymity VARCHAR(25),
