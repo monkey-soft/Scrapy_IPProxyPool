@@ -3,8 +3,7 @@
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
-from your_scrapy_project.config import getLogConfig
-from your_scrapy_project.config import IF_USE_PROXY
+from config.config import getLogConfig
 from proxyPool.ProxyPoolWorker import getProxyPoolWorker
 
 '''

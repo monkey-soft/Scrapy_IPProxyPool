@@ -4,8 +4,8 @@
 import pymysql
 import logging
 
-from lagou import config
-from lagou.config import getLogConfig
+from config import config
+from config.config import getLogConfig
 '''
     IP 代理池处理类
 @Author monkey

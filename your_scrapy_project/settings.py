@@ -8,7 +8,7 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
-from your_scrapy_project.config import IF_USE_PROXY
+from config.config import IF_USE_PROXY
 
 BOT_NAME = 'lagou'
 
