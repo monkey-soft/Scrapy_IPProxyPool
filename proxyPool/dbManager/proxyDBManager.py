@@ -50,7 +50,7 @@ class proxyDBManager(object):
           DROP TABLE IF EXISTS proxy;
           CREATE TABLE {} (
               id INT(9) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-              ip VARCHAR(25) NOT NULL,
+              ip BIGINT(10) NOT NULL,
               port INT(5) NOT NULL,
               type VARCHAR(6) NOT NULL,
               area VARCHAR(200),
@@ -79,7 +79,7 @@ class proxyDBManager(object):
         insertSql = '''
             insert into
             {} (ip, port, type, area, anonymity, speed, agent, survivalTime)
-            values(%s, %s, %s, %s, %s, %s, %s, %s)
+            values(INET_ATON(%s), %s, %s, %s, %s, %s, %s, %s)
         '''.format(self.__proxyTable)
 
 
@@ -127,7 +127,7 @@ class proxyDBManager(object):
         从数据库中随机查询一个 IP 代理地址
         '''
         selectSql = '''
-            SELECT * 
+            SELECT INET_NTOA(ip), type, port
             FROM {} AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM {})) AS id) AS t2 
             WHERE t1.id >= t2.id 
             ORDER BY t1.id ASC LIMIT 1;
@@ -138,8 +138,8 @@ class proxyDBManager(object):
             self.conn.commit()
 
             data = self.cursor.fetchone()
-            # str(data[3], encoding="utf-8") + "://" + str(data[1], encoding="utf-8") + ":" + str(data[2])
-            proxy = str(data[3], encoding="utf-8").lower() + "://" + str(data[1], encoding="utf-8") + ":" + str(data[2])
+            # str(data[1], encoding="utf-8") + "://" + str(data[0], encoding="utf-8") + ":" + str(data[2])
+            proxy = str(data[1], encoding="utf-8").lower() + "://" + str(data[0], encoding="utf-8") + ":" + str(data[2])
             return proxy
 
         except Exception as e:
@@ -152,37 +152,42 @@ class proxyDBManager(object):
         updateSql = '''
             update {}
             set failed_count = failed_count + 1
-            where ip = {}
-        '''.format(self.__proxyTable, ip)
+            where ip = INET_ATON(%s)
+        '''.format(self.__proxyTable)
 
         # 查询当前代理的失败次数
         selectTimeSql = '''
             select failed_count
             from {}
-            where ip = {}
-        '''.format(self.__proxyTable, ip)
+            where ip = INET_ATON(%s)
+        '''.format(self.__proxyTable)
 
         # 如果失败次数超过 3 次, 删除代理地址
         deleteSql = '''
             delete from {}
-            where ip = {}
-        '''.format(self.__proxyTable, ip)
+            where ip = INET_ATON(%s)
+        '''.format(self.__proxyTable)
 
 
         if ip is not None:
             try:
-                self.cursor.execute(selectTimeSql)
+                sqlData = (ip)
+
+                self.cursor.execute(selectTimeSql, sqlData)
                 self.conn.commit()
 
                 datas = self.cursor.fetchone()
+
                 if datas[0] >= 3 | datas[0] + 1 >= 3:
-                    self.cursor.execute(deleteSql)
+                    # print('deleteSql  ===== ', deleteSql)
+                    self.cursor.execute(deleteSql, sqlData)
                     self.conn.commit()
-                    logging.debug('===  success to delete {} proxy  ===', ip)
+                    logging.debug('===  success to delete %s proxy  ===', ip)
                 else:
-                    self.cursor.execute(updateSql)
+                    # print('updateSql  ===== ', updateSql)
+                    self.cursor.execute(updateSql, sqlData)
                     self.conn.commit()
-                    logging.debug('===  success to update {} proxy  ===', ip)
+                    logging.debug('===  success to update %s proxy  ===', ip)
 
             except Exception as e:
                 logging.exception('=== mysql operation exception ====\n %s', e)

@@ -11,6 +11,8 @@ from urllib.parse import unquote
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.schedulers.blocking import BlockingScheduler
 
+from proxyPool.dbManager.proxyDBManager import proxyDBManager
+from proxyPool.model.proxyModel import proxyModel
 from proxyPool.spiders.xiciSpider import xiciSpider
 
 '''
@@ -168,6 +170,57 @@ def case_9():
     list = xiciSpider.getProxies()
     print(list)
 
+
+'''
+# =======================================================================
+# 测试用例 10
+# 测试 proxyDBManager 的 plus_proxy_faild_time(self, ip) 函数
+# =======================================================================
+'''
+def case_10():
+
+    dao = proxyDBManager()
+    dao.create_proxy_table()
+
+    proxy = proxyModel()
+
+    ip = '125.115.141.6'
+    port = 8118
+    type = 'HTTPS'
+    anonymity = '高匿'
+    area = '浙江宁波'
+    speed = '0.148秒'
+    agent = 'agent'
+    survivalTime = '4小时'
+
+    proxy.set_ip(ip)
+    proxy.set_port(port)
+    proxy.set_type(type)
+    proxy.set_anonymity(anonymity)
+    # 处理空地区
+    if area is None:
+        proxy.set_area('')
+    else:
+        proxy.set_area(area)
+    proxy.set_speed(speed)
+    proxy.set_agent(agent)
+    proxy.set_survivalTime(survivalTime)
+
+
+    dao.insert_proxy_table(proxy)
+
+    proxyAddress = dao.select_random_proxy()
+    print(proxyAddress)
+
+    if 'http://' in proxyAddress:
+        proxyAddress = proxyAddress.replace('http://', '')
+    else:
+        proxyAddress = proxyAddress.replace('https://', '')
+
+    oldIp = proxyAddress.split(':')[0]
+    print('old IP : ', oldIp)
+    dao.plus_proxy_faild_time(oldIp)
+
 '''
 case_1()
 case_2()
@@ -177,8 +230,9 @@ case_5()
 case_6()
 case_7()
 case_8()
-'''
 case_9()
+'''
+case_10()
 
 
 
