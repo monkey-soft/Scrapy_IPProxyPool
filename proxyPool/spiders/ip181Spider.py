@@ -3,8 +3,8 @@
 import logging
 from lxml import etree
 
-from lagou.config import getLogConfig
-from proxyPool.model.proxyModel import proxyModel
+from config.config import getLogConfig
+from proxyPool.model.ProxyModel import ProxyModel
 from proxyPool.spiders.baseSpider import baseSpider
 
 '''
@@ -58,7 +58,7 @@ class ip181Spider(baseSpider):
                     # 把标题过滤掉
                     pass
                 else:
-                    proxy = proxyModel()
+                    proxy = ProxyModel()
                     proxy.set_ip(ip)
                     proxy.set_port(port)
                     if type == 'HTTP,HTTPS':

@@ -7,7 +7,7 @@
 @Author monkey
 @Date 2017-12-10
 '''
-class proxyModel(object):
+class ProxyModel(object):
 
     __failed_count = 0
     __speed = -1

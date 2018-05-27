@@ -12,7 +12,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 from proxyPool.dbManager.proxyDBManager import proxyDBManager
-from proxyPool.model.proxyModel import proxyModel
+from proxyPool.model.ProxyModel import ProxyModel
 from proxyPool.spiders.xiciSpider import xiciSpider
 
 '''
@@ -33,7 +33,6 @@ def case_1():
     print('dirt value is === ' + dirt)
 
 
-
 '''
 # =======================================================================
 # 测试用例2
@@ -51,7 +50,6 @@ def case_2():
         print('dirt value is === ' + dirt)
 
 
-
 '''
 # =======================================================================
 # 测试用例3
@@ -62,7 +60,6 @@ def case_3():
     url = 'https://www.lagou.com/zhaopin/Python/2/?filterOption=2'
     number = url.split('/')[-2]
     print(number)
-
 
 
 '''
@@ -93,10 +90,8 @@ def case_4():
     print(' 请求【 ' + url + ' 】的结果： ' + str(response.status_code))
     selector = etree.HTML(response.text)
 
-
     keyword = selector.xpath("/html/body/div[2]/div/div[1]/div/span/text()")[0]
     print('keyword  ===  ' + keyword)
-
 
 
 '''
@@ -116,7 +111,6 @@ def __timedTask():
     print(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3])
 
 
-
 '''
 # =======================================================================
 # 测试用例6
@@ -134,7 +128,7 @@ def case_6():
 # =======================================================================
 '''
 def case_7():
-    scheduler = BackgroundScheduler() # BlockingScheduler  BackgroundScheduler
+    scheduler = BackgroundScheduler()  # BlockingScheduler  BackgroundScheduler
     scheduler.add_job(__timedTask, 'interval', seconds=2)
     scheduler.start()
 
@@ -159,13 +153,13 @@ def case_8():
     proxy = proxy.split(':')[0]
     print(proxy)
 
+
 '''
 # =======================================================================
 # 测试用例9
 # 测试西刺爬虫
 # =======================================================================
 '''
-
 def case_9():
     list = xiciSpider.getProxies()
     print(list)
@@ -182,7 +176,7 @@ def case_10():
     dao = proxyDBManager()
     dao.create_proxy_table()
 
-    proxy = proxyModel()
+    proxy = ProxyModel()
 
     ip = '125.115.141.6'
     port = 8118
@@ -206,7 +200,6 @@ def case_10():
     proxy.set_agent(agent)
     proxy.set_survivalTime(survivalTime)
 
-
     dao.insert_proxy_table(proxy)
 
     proxyAddress = dao.select_random_proxy()
@@ -221,6 +214,7 @@ def case_10():
     print('old IP : ', oldIp)
     dao.plus_proxy_faild_time(oldIp)
 
+
 '''
 case_1()
 case_2()
@@ -233,6 +227,3 @@ case_8()
 case_9()
 '''
 case_10()
-
-
-

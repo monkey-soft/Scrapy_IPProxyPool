@@ -11,6 +11,8 @@ from config.config import getLogConfig
 @Author monkey
 @Date 2017-12-10
 '''
+
+
 class proxyDBManager(object):
 
     def __init__(self):
@@ -21,16 +23,15 @@ class proxyDBManager(object):
         self.__proxyTable = 'proxy'
 
         self.conn = pymysql.connect(
-            host        = config.MYSQL_HOST,
-            db          = config.MYSQL_DBNAME,
-            user        = config.MYSQL_USER,
-            passwd      = config.MYSQL_PASSWORD,
-            charset     = 'utf8',  # 编码要加上，否则可能出现中文乱码问题
-            use_unicode = False)
+            host=config.MYSQL_HOST,
+            db=config.MYSQL_DBNAME,
+            user=config.MYSQL_USER,
+            passwd=config.MYSQL_PASSWORD,
+            charset='utf8',  # 编码要加上，否则可能出现中文乱码问题
+            use_unicode=False)
 
         with self.conn:
             self.cursor = self.conn.cursor()
-
 
     '''
     关闭数据库连接
@@ -40,7 +41,6 @@ class proxyDBManager(object):
         self.cursor.close()
         # 关闭数据库连接
         self.conn.close()
-
 
     def create_proxy_table(self, ):
         '''
@@ -56,7 +56,7 @@ class proxyDBManager(object):
               area VARCHAR(200),
               anonymity VARCHAR(25),
               speed VARCHAR(25) DEFAULT '-1',
-              failed_count INT(2) DEFAULT 0, 
+              failed_count INT(2) DEFAULT 0,
               agent VARCHAR(25),
               survivalTime VARCHAR(25)
           ) DEFAULT CHARSET=utf8;
@@ -70,7 +70,6 @@ class proxyDBManager(object):
         except Exception as e:
             logging.exception('===== 创建数据库 proxy 表出现异常 =====\n %s', e)
 
-
     def insert_proxy_table(self, proxymodel):
         '''
         往插入数据库表 proxy 中插入数据
@@ -81,7 +80,6 @@ class proxyDBManager(object):
             {} (ip, port, type, area, anonymity, speed, agent, survivalTime)
             values(INET_ATON(%s), %s, %s, %s, %s, %s, %s, %s)
         '''.format(self.__proxyTable)
-
 
         try:
             data = (proxymodel.get_ip(),
@@ -101,8 +99,6 @@ class proxyDBManager(object):
         except Exception as e:
             logging.exception('===== mysql insert_proxy exception =====\n %s', e)
 
-
-
     def select_ip_num(self):
         '''
         查询数据库表 proxy 中剩余的 IP 总数
@@ -121,15 +117,14 @@ class proxyDBManager(object):
         except Exception as e:
             logging.exception('===== mysql insert_proxy exception =====\n %s', e)
 
-
     def select_random_proxy(self):
         '''
         从数据库中随机查询一个 IP 代理地址
         '''
         selectSql = '''
             SELECT INET_NTOA(ip), type, port
-            FROM {} AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM {})) AS id) AS t2 
-            WHERE t1.id >= t2.id 
+            FROM {} AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM {})) AS id) AS t2
+            WHERE t1.id >= t2.id
             ORDER BY t1.id ASC LIMIT 1;
         '''.format(self.__proxyTable, self.__proxyTable)
 
@@ -144,7 +139,6 @@ class proxyDBManager(object):
 
         except Exception as e:
             logging.exception('===== select random_proxy exception =====\n %s', e)
-
 
     def plus_proxy_faild_time(self, ip):
 
@@ -168,24 +162,21 @@ class proxyDBManager(object):
             where ip = INET_ATON(%s)
         '''.format(self.__proxyTable)
 
-
         if ip is not None:
             try:
-                sqlData = (ip)
-
-                self.cursor.execute(selectTimeSql, sqlData)
+                self.cursor.execute(selectTimeSql, ip)
                 self.conn.commit()
 
                 datas = self.cursor.fetchone()
 
                 if datas[0] >= 3 | datas[0] + 1 >= 3:
                     # print('deleteSql  ===== ', deleteSql)
-                    self.cursor.execute(deleteSql, sqlData)
+                    self.cursor.execute(deleteSql, ip)
                     self.conn.commit()
                     logging.debug('===  success to delete %s proxy  ===', ip)
                 else:
                     # print('updateSql  ===== ', updateSql)
-                    self.cursor.execute(updateSql, sqlData)
+                    self.cursor.execute(updateSql, ip)
                     self.conn.commit()
                     logging.debug('===  success to update %s proxy  ===', ip)
 

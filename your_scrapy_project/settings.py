@@ -41,35 +41,35 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 10
 
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
-  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-  'Accept-Language': 'zh-CN,zh;q=0.8',
-  'Accept-Encoding':'gzip, deflate, br',
-  'Content-Type': 'text/html;charset=UTF-8',
-  'Cache-Control': 'no-cache',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'Accept-Language': 'zh-CN,zh;q=0.8',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Content-Type': 'text/html;charset=UTF-8',
+    'Cache-Control': 'no-cache',
 }
 
 # Enable or disable spider myMiddlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
+# SPIDER_MIDDLEWARES = {
 #    'lagou.myMiddlewares.LagouSpiderMiddleware': 543,
-#}
+# }
 
 # Enable or disable downloader myMiddlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
+# DOWNLOADER_MIDDLEWARES = {
 #    'lagou.myMiddlewares.MyCustomDownloaderMiddleware': 543,
-#}
+# }
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
-#EXTENSIONS = {
+# EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
-#}
+# }
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'lagou.pipelines.LagouPipeline': 300,
+    'lagou.pipelines.LagouPipeline': 300,
 }
 
 

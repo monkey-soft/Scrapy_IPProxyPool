@@ -12,6 +12,8 @@ from proxyPool.ProxyPoolWorker import getProxyPoolWorker
 @Author monkey
 @Date 2017-12-2
 '''
+
+
 class SpiderManager(object):
 
     def __init__(self):
@@ -26,16 +28,16 @@ class SpiderManager(object):
         # 启动代理
         getProxyPoolWorker().startWork()
 
-
     '''
     启动 scrapy 的爬虫程序
     '''
-    def start_spider(self):
+    def start_spider(self, spider_list):
         '''
         在同一进程里面执行多个爬虫程序
         '''
         self.process = CrawlerProcess(self.setting)
-        self.process.crawl(Demospider())   # 换成你 scrapy 爬虫的名字,
+        for spider in spider_list:
+            self.process.crawl(spider)
         self.process.start()
 
     '''
@@ -45,7 +47,6 @@ class SpiderManager(object):
         self.isRunning = False
         # 关闭资源
         getProxyPoolWorker().stopWork()
-        # todo 停止scrapy爬虫？
 
     '''
     启动爬虫和代理池
@@ -60,4 +61,7 @@ if __name__ == '__main__':
     getLogConfig()
 
     manager = SpiderManager()
-    manager.start()
+    # Demospider() 是 Scrapy 项目 spider 目录下的爬虫脚本名字
+    # 这里需要更换成 你项目的 爬虫名
+    spider_list = [Demospider(), ]
+    manager.start(spider_list)

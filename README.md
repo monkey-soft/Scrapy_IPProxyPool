@@ -22,8 +22,8 @@
 - proxyDBManager.py
 `proxyDBManager.py` 位于 dbManager 包下。它是数据库操作类。主要工作是创建数据库表、往数据库中插入 IP 代理、查询数据库中剩余的 IP 代理总数、从数据库中随机查询一个 IP 代理、对连接超时或失败的 IP 代理做处理。
 
-- proxyModel.py
-`proxyModel.py` 在 `model` 包下。它是 IP 代理对象类。
+- ProxyModel.py
+`ProxyModel.py` 在 `model` 包下。它是 IP 代理对象类。
 
 - requestEnginer.py
 `requestEnginer.py` 位于 `requester` 目录下。requestEnginer 是整个爬虫代理池的网络引擎。它采用 Session 的形式来发起 HTTP 请求。同时，它还负责验证代理地址有效性,  达到过滤掉无用 IP 代理的目的。
@@ -42,7 +42,8 @@ scrapy 目录是一些 Scrapy 框架的自定义中间件。`RandomUserAgentMidd
 - pymysql
 
 ## 4.2 修改配置
-1) 将 `startrun.py` 放到你的 Scrapy 项目的主目录下。例如你项目名为 demo，那么你需要放到 demo 的目录下。
+1) 将 `startrun.py`、`config 文件夹`、`proxy 文件夹` 复制到你的 Scrapy 项目的主目录下。
+例如你项目名为 demo，那么你需要放到 demo 的目录下。
 
 2) 修改 `config` 包下的 `config.py` 里面的 Mysql 相关配置信息。
 
@@ -71,6 +72,10 @@ if IF_USE_PROXY:
         'proxyPool.scrapy.middlewares.RetryMiddleware': 95,
     }
 ```
+
+4) 修改 `startrun.py` 中 `spider_list` 列表中的爬虫名。
+
+5) 最后运行  `startrun.py` 即可。startrun.py 会先抓取 ip 代理网站的 ip，然后再使用这些代理爬取目标网站。
 
 # 5 写在最后
 本项目会持续维护。如果你有宝贵的完善建议或者有更多的代理网站，可以联系我。

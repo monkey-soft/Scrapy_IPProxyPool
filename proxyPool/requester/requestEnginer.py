@@ -5,12 +5,14 @@
 @Author monkey
 @Date 2017-12-14
 '''
+
+
 import logging
 import requests
 from requests import Response
 from requests.adapters import HTTPAdapter
 
-from proxyPool.model.proxyModel import proxyModel
+from proxyPool.model.ProxyModel import ProxyModel
 
 def do_get(url, headers):
     '''
@@ -24,8 +26,8 @@ def do_get(url, headers):
     }
 
     session = requests.Session()
-    session.mount('http://', HTTPAdapter(max_retries=5))
-    session.mount('https://', HTTPAdapter(max_retries=5))
+    session.mount('http://', HTTPAdapter(max_retries=3))
+    session.mount('https://', HTTPAdapter(max_retries=3))
 
     if headers is None:
         response = session.get(url, proxies=proxies, timeout=timeout)

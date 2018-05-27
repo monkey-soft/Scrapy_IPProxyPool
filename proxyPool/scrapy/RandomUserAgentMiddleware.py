@@ -8,8 +8,6 @@ import random
 @Author monkey
 @Date 2017-12-16
 '''
-
-
 class RandomUserAgentMiddleware(object):
 
     UserAgent_List = [

@@ -61,10 +61,10 @@ class ProxyPoolWorker(object):
     def crawl_proxyWeb(self):
 
         spiders = [
-            # data5uSpider,
-            # kuaidailiSpider,
-            # ip181Spider,
-            xiciSpider,  # 目前只用西刺代理
+            data5uSpider,
+            kuaidailiSpider,
+            ip181Spider,
+            xiciSpider,
         ]
 
         for spider in spiders:
@@ -100,5 +100,7 @@ proxyPool = ProxyPoolWorker()
 '''
 获取 ProxyPoolWorker 实例对象
 '''
+
+
 def getProxyPoolWorker():
     return proxyPool
