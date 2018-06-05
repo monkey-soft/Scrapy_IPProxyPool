@@ -3,16 +3,18 @@
 import logging
 from lxml import etree
 
-from config.config import getLogConfig
-from proxyPool.model.ProxyModel import ProxyModel
-from proxyPool.spiders.baseSpider import baseSpider
+from config.config import get_log_config
+from proxyPool.model.proxy import Proxy
+from proxyPool.spiders.baseSpider import BaseSpider
 
 '''
     ip181 爬虫
 @Author monkey
 @Date 2017-12-18
 '''
-class ip181Spider(baseSpider):
+
+
+class Ip181Spider(BaseSpider):
 
     url = 'http://www.ip181.com/'
 
@@ -31,14 +33,16 @@ class ip181Spider(baseSpider):
     }
 
     @classmethod
-    def getProxies(self):
+    def get_proxies(self):
 
         # 加载 Log 配置
-        getLogConfig()
+        get_log_config()
 
         proxy_model_list = []
 
-        response = super(ip181Spider, self).getProxies()
+        print('正在爬取ip181……')
+
+        response = super(Ip181Spider, self).get_proxies()
         # 这个网站的编码是 gb2312
         response.encoding = 'gb2312'
         selector = etree.HTML(response.text)
@@ -49,27 +53,27 @@ class ip181Spider(baseSpider):
                 ip = info.xpath('./td[1]/text()')[0]         # ip
                 port = info.xpath('./td[2]/text()')[0]       # 端口
                 anonymity = info.xpath('./td[3]/text()')[0]  # 匿名度
-                type = info.xpath('./td[4]/text()')[0]       # 类型
+                http_type = info.xpath('./td[4]/text()')[0]       # 类型
                 speed = info.xpath('./td[5]/text()')[0]      # 速度
                 area = info.xpath('./td[6]/text()')[0]       # 地区
-                # print(ip + " | " + port + " | " + anonymity + " | " + type + " | " + speed + " | " + area)
+                # print(ip + " | " + port + " | " + anonymity + " | " + http_type + " | " + speed + " | " + area)
 
                 if i == 1:
                     # 把标题过滤掉
                     pass
                 else:
-                    proxy = ProxyModel()
+                    proxy = Proxy()
                     proxy.set_ip(ip)
                     proxy.set_port(port)
-                    if type == 'HTTP,HTTPS':
-                        proxy.set_type('http')
+                    if http_type == 'HTTP,HTTPS':
+                        proxy.set_http_type('http')
                     else:
-                        proxy.set_type(type.lower())
+                        proxy.set_http_type(http_type.lower())
                     proxy.set_anonymity(anonymity)
                     proxy.set_area(area)
                     proxy.set_speed(speed)
                     proxy.set_agent(self.agent)
-                    proxy.set_survivalTime("")
+                    proxy.set_survival_time("")
                     proxy_model_list.append(proxy)
             except Exception as e:
                 logging.debug(e)

@@ -9,7 +9,9 @@ from proxyPool.requester import requestEnginer
 @Author monkey
 @Date 2017-12-17
 '''
-class baseSpider(object):
+
+
+class BaseSpider(object):
 
     url = ""
 
@@ -22,7 +24,7 @@ class baseSpider(object):
     解析爬取结果
     '''
     @classmethod
-    def getProxies(self):
+    def get_proxies(self):
         if self.headers is None:
             response = requestEnginer.do_get(self.url)
         else:

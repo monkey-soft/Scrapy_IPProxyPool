@@ -3,11 +3,13 @@
 
 import random
 
-'''
+"""
     随机更换 User-agent 的中间件
 @Author monkey
 @Date 2017-12-16
-'''
+"""
+
+
 class RandomUserAgentMiddleware(object):
 
     UserAgent_List = [
@@ -46,7 +48,7 @@ class RandomUserAgentMiddleware(object):
         "Opera/9.80 (Windows NT 5.1; U; zh-sg) Presto/2.9.181 Version/12.00"
     ]
 
-    '''动态随机设置 User-agent'''
+    """动态随机设置 User-agent"""
     def process_request(self, request, spider):
         ua = random.choice(self.UserAgent_List)
         if ua:

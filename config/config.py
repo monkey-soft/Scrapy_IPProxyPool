@@ -3,19 +3,21 @@
 import logging
 import datetime
 
-'''
+"""
     项目配置文件
 @Author monkey
 @Date 2017-12-18
-'''
-def getLogConfig():
+"""
+
+
+def get_log_config():
     # 将 requests的日志级别设成 WARNING
     LOG_LEVEL = logging.WARNING
     logging.getLogger("requests").setLevel(LOG_LEVEL)
 
     # Log 文件名
     LOG_STORE_NAME = 'proxy_{}.txt'.format(
-        datetime.datetime.now().strftime("%Y%m%d_%H:%M:%S"))
+        datetime.datetime.now().strftime("%Y%m%d_%H%M%S"))
 
     logging.basicConfig(
         level=logging.DEBUG,

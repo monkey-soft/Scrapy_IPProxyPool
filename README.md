@@ -19,8 +19,8 @@
 - ProxyPoolWorker.py
 `ProxyPoolWorker.py` 是 IP代理池模块的管理类，负责启动和维护 IP 代理池。
 
-- proxyDBManager.py
-`proxyDBManager.py` 位于 dbManager 包下。它是数据库操作类。主要工作是创建数据库表、往数据库中插入 IP 代理、查询数据库中剩余的 IP 代理总数、从数据库中随机查询一个 IP 代理、对连接超时或失败的 IP 代理做处理。
+- ProxyDBManager.py
+`ProxyDBManager.py` 位于 dbManager 包下。它是数据库操作类。主要工作是创建数据库表、往数据库中插入 IP 代理、查询数据库中剩余的 IP 代理总数、从数据库中随机查询一个 IP 代理、对连接超时或失败的 IP 代理做处理。
 
 - ProxyModel.py
 `ProxyModel.py` 在 `model` 包下。它是 IP 代理对象类。

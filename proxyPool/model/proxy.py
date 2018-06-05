@@ -2,18 +2,25 @@
 # coding=utf-8
 
 
-'''
+"""
     IP 代理对象类
 @Author monkey
 @Date 2017-12-10
-'''
-class ProxyModel(object):
+"""
 
-    __failed_count = 0
-    __speed = -1
+
+class Proxy(object):
 
     def __init__(self):
-        pass
+        self.__ip = ''
+        self.__port = ''
+        self.__http_type = ''
+        self.__area = ''
+        self.__anonymity = ''
+        self.__speed = ''
+        self.__failed_count = 0
+        self.__agent = ''
+        self.__survival_time = ''
 
     def set_ip(self, ip):
         self.__ip = ip
@@ -27,11 +34,11 @@ class ProxyModel(object):
     def get_port(self):
         return self.__port
 
-    def set_type(self, type):
-        self.__type = type
+    def set_http_type(self, http_type):
+        self.__http_type = http_type
 
-    def get_type(self):
-        return self.__type
+    def get_http_type(self):
+        return self.__http_type
 
     def set_area(self, area):
         self.__area = area
@@ -63,8 +70,8 @@ class ProxyModel(object):
     def get_agent(self):
         return self.__agent
 
-    def set_survivalTime(self, survivalTime):
-        self.__survivalTime = survivalTime
+    def set_survival_time(self, survival_time):
+        self.__survival_time = survival_time
 
-    def get_survivalTime(self):
-        return self.__survivalTime
+    def get_survival_time(self):
+        return self.__survival_time
