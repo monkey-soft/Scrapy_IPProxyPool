@@ -53,8 +53,10 @@ class Data5uSpider(BaseSpider):
                 anonymity = info.xpath('//ul[@class="l2"]/span[3]/li/a/text()')[i]      # 匿名度
                 http_type = info.xpath('//ul[@class="l2"]/span[4]/li/a/text()')[i]           # 类型
                 area = info.xpath('//ul[@class="l2"]/span[6]/li/a[1]/text()')[i]        # 地区, 省
-                area = area + info.xpath('//ul[@class="l2"]/span[6]/li/a[2]/text()')[i] # 地区, 市
+                area = area + info.xpath('//ul[@class="l2"]/span[6]/li/a[2]/text()')[i]  # 地区, 市
                 speed = info.xpath('//ul[@class="l2"]/span[8]/li/text()')[i]            # 速度
+
+                print(ip + " | " + port + " | " + anonymity + " | " + http_type + " | " + area + " | " + speed + " | ")
 
                 if http_type == 'http' or http_type == 'https':
                     # print(http_type + "://" + ip + ":" + port)

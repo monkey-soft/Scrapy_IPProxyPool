@@ -43,7 +43,7 @@ class ProxyDBManager(object):
         self.conn.close()
 
     def create_proxy_table(self, ):
-        """创建数据库表 proxy 来保存抓取的代理"""
+        """  创建数据库表 proxy 来保存抓取的代理  """
         create_table_sql = (
           # "DROP TABLE IF EXISTS {};"
           # "CREATE TABLE {} ("
@@ -59,7 +59,7 @@ class ProxyDBManager(object):
           "`agent` VARCHAR(25),"
           "`survival_time` VARCHAR(25),"
           "PRIMARY KEY(id)"
-          ") ENGINE=InnoDB".format(self.__proxy_table, self.__proxy_table)
+          ") ENGINE=InnoDB DEFAULT CHARSET=utf8".format(self.__proxy_table, self.__proxy_table)
         )
 
         try:
@@ -70,8 +70,20 @@ class ProxyDBManager(object):
         except Exception as e:
             logging.exception('===== 创建数据库 proxy 表出现异常 =====\n %s', e)
 
+    def drop_proxy_table(self):
+        """  删除数据库表 proxy  """
+        delete_sql = "DROP TABLE IF EXISTS {}".format(self.__proxy_table)
+        try:
+            self.cursor.execute(delete_sql)
+            self.conn.commit()
+            logging.debug("===== 成功删除 " + self.__proxy_table + " 表  =====")
+
+        except Exception as e:
+            logging.exception('===== mysql delete data exception =====\n %s', e)
+
     def insert_proxy_table(self, proxy):
-        """ 往插入数据库表 proxy 中插入数据
+        """
+        往插入数据库表 proxy 中插入数据
         :param proxy: proxyModel 对象
         """
         insert_sql = (

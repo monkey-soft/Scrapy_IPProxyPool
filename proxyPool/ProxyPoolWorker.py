@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+import random
 
 from proxyPool.dbManager.proxyDBManager import ProxyDBManager
 from proxyPool.spiders.data5uSpider import Data5uSpider
 from proxyPool.spiders.kuaidailiSpider import KuaidailiSpider
-from proxyPool.spiders.ip181Spider import Ip181Spider
 from proxyPool.spiders.xiciSpider import XiciSpider
 
 from proxyPool.requester import requestEnginer
@@ -26,6 +26,7 @@ class ProxyPoolWorker(object):
         # 连接数据库
         self.dbmanager = ProxyDBManager()
         # 创建数据库表
+        self.dbmanager.drop_proxy_table()
         self.dbmanager.create_proxy_table()
 
     """ 
@@ -62,15 +63,15 @@ class ProxyPoolWorker(object):
             XiciSpider,
             Data5uSpider,
             KuaidailiSpider,
-            Ip181Spider,
-
         ]
 
-        for spider in spiders:
-            models = spider.get_proxies()
-            filtered_models = requestEnginer.filter_unavailable_proxy(models)
-            for each in filtered_models:
-                self.dbmanager.insert_proxy_table(each)
+        # for spider in spiders:
+        # 修改为随机抓取某个代理网站
+        spider = random.choice(spiders)
+        models = spider.get_proxies()
+        filtered_models = requestEnginer.filter_unavailable_proxy(models)
+        for each in filtered_models:
+            self.dbmanager.insert_proxy_table(each)
 
     """
     随机获取一个 IP 代理地址

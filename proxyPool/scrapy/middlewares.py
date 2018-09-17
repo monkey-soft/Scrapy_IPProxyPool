@@ -20,7 +20,8 @@ class ProxyMiddleware(object):
         request.meta['proxy'] = proxy_address
 
     def process_exception(self, request, exception, spider):
-        print("exception  ============= ", exception)
+        # print("exception  ============= ", exception)
+        pass
 
 
 """ 捕获异常中间层 """
@@ -67,7 +68,7 @@ class RetryMiddleware(object):
                 proxy = proxy.replace('https://', '')
 
             get_proxy_pool_worker().plus_proxy_faild_time(proxy.split(':')[0])
-            print('ip  proxy  ===  ', proxy.split(':')[0])
+            # print('ip  proxy  ===  ', proxy.split(':')[0])
         except Exception as e:
             logging.debug("===  访问页面: " + request.url + " 出现异常。\n %s", e)
 

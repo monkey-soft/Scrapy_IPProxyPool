@@ -60,6 +60,8 @@ class KuaidailiSpider(BaseSpider):
                 area = item[4]  # 地区
                 speed = item[5]  # 速度
 
+                print(ip + " | " + port + " | " + anonymity + " | " + http_type + " | " + area + " | " + speed)
+
                 if http_type == 'HTTP' or http_type == 'HTTPS':
                     # print(type.lower() + "://" + ip + ":" + port)
                     proxy = Proxy()

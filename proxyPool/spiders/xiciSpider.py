@@ -15,8 +15,8 @@ from proxyPool.spiders.baseSpider import BaseSpider
 
 class XiciSpider(BaseSpider):
 
-    # url = 'http://www.xicidaili.com/wt/1'    # 国内 HTTP 代理
-    url = 'http://www.xicidaili.com/wn/'   # 国内 HTTPS 代理
+    url = 'http://www.xicidaili.com/wt/1'    # 国内 HTTP 代理
+    # url = 'http://www.xicidaili.com/wn/'   # 国内 HTTPS 代理
 
     agent = "xici"
 

@@ -36,5 +36,12 @@ MYSQL_USER = 'root'         # 数据库用户
 MYSQL_PASSWORD = '123456'       # 数据库密码
 
 
+# 验证代理地址的线程池的总数, 默认是 10
+THREADPOOL_NUM = 10
+
+# 验证代理地址的网站, 最好填写你要爬取的网站
+Validated_url = 'https://www.baidu.com/'
+
+
 # 配置代理
 IF_USE_PROXY = True
